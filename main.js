@@ -21,7 +21,10 @@ const CONFIG = {
   MULTICELLULARITY_ADHESION: 0.6,
   LAND_MOTILITY: 0.6,
   FLIGHT_MOTILITY: 0.6,
-  CANVAS_SCALE: 5 // scale simulation coords to pixels (kept internal)
+  CANVAS_SCALE: 5, // scale simulation coords to pixels (kept internal)
+  MIN_SPEED: 0.1,
+  MAX_SPEED: 10.0,
+  DEFAULT_SPEED: 1.0
 };
 
 /* ----------------- UTIL ----------------- */
@@ -198,7 +201,7 @@ class EvoSim {
     this.events = []; this.metrics = [];
   }
 
-  step(sexual=false){
+  stepSim(sexual=false){
     this.step++;
     // actions
     const newAgents = [];
@@ -395,6 +398,13 @@ const btnRestart = document.getElementById('btnRestart');
 const btnPause = document.getElementById('btnPause');
 const btnSpawnFood = document.getElementById('btnSpawnFood');
 
+// Time control elements
+const speedSlider = document.getElementById('speedSlider');
+const speedValue = document.getElementById('speedValue');
+const btnSlow = document.getElementById('btnSlow');
+const btnNormal = document.getElementById('btnNormal');
+const btnFast = document.getElementById('btnFast');
+
 const stats = { step: document.getElementById('step'), pop:document.getElementById('pop'), food:document.getElementById('food'), speciesCount:document.getElementById('speciesCount'), avgSize:document.getElementById('avgSize'), diversity:document.getElementById('diversity') };
 
 const chartCtx = document.getElementById('miniChart').getContext('2d');
@@ -409,7 +419,13 @@ const chart = new Chart(chartCtx, {
 });
 
 let sim = new EvoSim();
-let ANIM = { running: true, frame: null, stepsPerFrame: 1 };
+let ANIM = { 
+  running: true, 
+  frame: null, 
+  stepsPerFrame: 1,
+  speed: CONFIG.DEFAULT_SPEED,
+  lastStepTime: performance.now()
+};
 let lastTick = performance.now();
 
 function initUI(){
@@ -417,17 +433,42 @@ function initUI(){
   initPopEl.value = CONFIG.INITIAL_POP; initVal.innerText = CONFIG.INITIAL_POP;
   reproEl.value = CONFIG.REPRO_ENERGY; reproVal.innerText = CONFIG.REPRO_ENERGY;
 
+  // Initialize time control
+  speedSlider.value = CONFIG.DEFAULT_SPEED;
+  speedValue.innerText = CONFIG.DEFAULT_SPEED.toFixed(1) + 'x';
+  ANIM.speed = CONFIG.DEFAULT_SPEED;
+
   mrEl.addEventListener('input', ()=>{ CONFIG.MUTATION_RATE = parseFloat(mrEl.value); mrVal.innerText = CONFIG.MUTATION_RATE.toFixed(2); });
   initPopEl.addEventListener('input', ()=>{ initVal.innerText = initPopEl.value; });
   reproEl.addEventListener('input', ()=>{ CONFIG.REPRO_ENERGY = parseInt(reproEl.value); reproVal.innerText = reproEl.value; });
 
+  // Time control event listeners
+  speedSlider.addEventListener('input', updateSpeed);
+  btnSlow.addEventListener('click', () => setSpeed(0.5));
+  btnNormal.addEventListener('click', () => setSpeed(1.0));
+  btnFast.addEventListener('click', () => setSpeed(3.0));
+
   btnRestart.addEventListener('click', ()=>{ restartSim(); });
-  btnPause.addEventListener('click', ()=>{ ANIM.running = !ANIM.running; btnPause.innerText = ANIM.running? 'Pause':'Resume'; });
+  btnPause.addEventListener('click', ()=>{ 
+    ANIM.running = !ANIM.running; 
+    btnPause.innerText = ANIM.running? 'Pause':'Resume'; 
+  });
   btnSpawnFood.addEventListener('click', ()=>{ sim.spawnFood(50); });
   // exports
   document.getElementById('btnExportMetrics').addEventListener('click', ()=>{ exportMetricsCSV(); });
   document.getElementById('btnExportSpecies').addEventListener('click', ()=>{ exportSpeciesCSV(); });
   document.getElementById('btnExportLineage').addEventListener('click', ()=>{ exportLineageJSON(); });
+}
+
+function updateSpeed() {
+  ANIM.speed = parseFloat(speedSlider.value);
+  speedValue.innerText = ANIM.speed.toFixed(1) + 'x';
+}
+
+function setSpeed(speed) {
+  ANIM.speed = speed;
+  speedSlider.value = speed;
+  speedValue.innerText = speed.toFixed(1) + 'x';
 }
 
 function restartSim(){
@@ -506,17 +547,27 @@ function draw(){
 
 /* ----------------- MAIN LOOP ----------------- */
 function stepLoop(){
-  // do simulation steps depending on performance
-  if(ANIM.running){
-    const steps = sim.agents.length > 200 ? 2 : 1;
-    for(let i=0;i<steps;i++){
-      sim.step(sexualToggle.checked);
+  const now = performance.now();
+  const deltaTime = now - ANIM.lastStepTime;
+  
+  // Calculate how many steps to run based on speed and elapsed time
+  const targetStepInterval = 1000 / (60 * ANIM.speed); // 60 FPS base rate
+  const stepsToRun = Math.floor(deltaTime / targetStepInterval);
+  
+  if(ANIM.running && stepsToRun > 0){
+    // Run simulation steps
+    for(let i = 0; i < stepsToRun; i++){
+      sim.stepSim(sexualToggle.checked);
     }
-    // periodic food cleanup
+    
+    ANIM.lastStepTime = now;
+    
+    // Periodic food cleanup
     if(sim.foods.length < Math.max(30, Math.round(CONFIG.INITIAL_FOOD*0.5))){
       sim.spawnFood(Math.round(CONFIG.INITIAL_FOOD*0.3));
     }
-    // safety cap
+    
+    // Safety cap
     if(sim.agents.length > 700){
       sim.agents.sort((a,b)=> a.energy - b.energy);
       while(sim.agents.length > 400){
@@ -524,10 +575,12 @@ function stepLoop(){
         if(rem) rem.alive=false;
       }
     }
+    
     updateStatsUI();
     updateChart();
     draw();
   }
+  
   ANIM.frame = requestAnimationFrame(stepLoop);
 }
 
@@ -562,6 +615,7 @@ function boot(){
   initUI();
   restartSim();
   ANIM.running = true;
+  ANIM.lastStepTime = performance.now();
   stepLoop();
 }
 function restartSim(){
