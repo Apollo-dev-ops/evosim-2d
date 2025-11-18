@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>EvoVerse — 2D Evolution Simulator (GitHub Pages)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>EvoVerse — 2D Evolution Simulator</h1>
+    <p class="muted">Zero-player evolution: bacteria → multicellularity → land → air. Scientific logging & lineage export included.</p>
+  </header>
+
+  <div id="app">
+    <div id="left">
+      <canvas id="worldCanvas" width="960" height="720"></canvas>
+      <div id="overlay">
+        <div id="epochBadge">Epoch: <span id="epochName">Bacteria Epoch</span></div>
+        <div id="announcements"></div>
+      </div>
+    </div>
+
+    <aside id="controls">
+      <section class="panel">
+        <h2>Controls</h2>
+        <label>Mutation Rate: <span id="mr_val">0.12</span></label>
+        <input id="mutationRate" type="range" min="0" max="0.5" step="0.01" value="0.12">
+        <label>Initial Population: <span id="init_val">30</span></label>
+        <input id="initPop" type="range" min="5" max="150" step="1" value="30">
+        <label>Reproduction Threshold (energy): <span id="repro_val">120</span></label>
+        <input id="reproEnergy" type="range" min="60" max="400" step="5" value="120">
+
+        <div class="row">
+          <label><input id="sexualToggle" type="checkbox"> Enable sexual recombination</label>
+        </div>
+
+        <div class="row">
+          <button id="btnRestart">Restart</button>
+          <button id="btnPause">Pause</button>
+          <button id="btnSpawnFood">Spawn Food</button>
+        </div>
+
+        <div class="row small muted">Tip: Increase mutation for faster exploration; enable sexual recombination to mix DNA.</div>
+      </section>
+
+      <section class="panel">
+        <h2>Live Metrics</h2>
+        <div id="stats">
+          <div>Step: <span id="step">0</span></div>
+          <div>Population: <span id="pop">0</span></div>
+          <div>Food: <span id="food">0</span></div>
+          <div>Species: <span id="speciesCount">0</span></div>
+          <div>Avg Size: <span id="avgSize">0</span></div>
+          <div>Genetic Diversity: <span id="diversity">0</span></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Charts</h2>
+        <canvas id="miniChart" width="380" height="180"></canvas>
+      </section>
+
+      <section class="panel">
+        <h2>Data Export</h2>
+        <button id="btnExportMetrics">Export metrics CSV</button>
+        <button id="btnExportSpecies">Export species events CSV</button>
+        <button id="btnExportLineage">Export lineage JSON</button>
+      </section>
+
+      <section class="panel small">
+        <strong>About</strong><br>
+        This is a scientific evolution sandbox that logs data suitable for analysis. Use exported CSV/JSON for reports.
+      </section>
+    </aside>
+  </div>
+
+  <footer>
+    <div class="muted">Ready to publish on GitHub Pages. See README for instructions.</div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
