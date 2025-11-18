@@ -20,3 +20,45 @@ button:active{transform:translateY(1px)}
 .small{font-size:12px;color:var(--muted)}
 footer{padding:10px 16px;border-top:1px solid rgba(255,255,255,0.02);color:var(--muted)}
 canvas{background:linear-gradient(#081422,#051021);border-radius:6px;display:block}
+
+/* Time Control Styles */
+.time-controls {
+  margin: 12px 0;
+  padding: 10px 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.time-controls label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+#speedValue {
+  font-weight: bold;
+  color: #66b3ff;
+}
+
+.speed-buttons {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.speed-btn {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 11px;
+  background: #2d3748;
+  border: 1px solid #4a5568;
+}
+
+.speed-btn:hover {
+  background: #4a5568;
+}
+
+.speed-btn:active {
+  background: #1f6feb;
+  }
