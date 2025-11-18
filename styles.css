@@ -1,0 +1,22 @@
+/* styles.css - minimal UI */
+:root{ --bg:#0d1117; --panel:#0b1220; --accent:#1f6feb; --muted:#9fb6db; }
+html,body{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:#e6eef8}
+header{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.02)}
+h1{margin:2px 0;font-size:18px}
+.muted{color:var(--muted);font-size:13px}
+#app{display:flex;gap:10px;padding:12px}
+#left{flex:1;position:relative;border-radius:8px;overflow:hidden;background:#071124;padding:8px}
+#overlay{position:absolute;top:12px;left:12px;z-index:20}
+#epochBadge{background:rgba(0,0,0,0.6);color:#fff;padding:6px 10px;border-radius:6px;font-weight:600}
+#announcements{margin-top:8px;color:#cfe8ff;max-width:420px}
+aside#controls{width:380px;max-width:38%;display:flex;flex-direction:column;gap:10px}
+.panel{background:var(--panel);padding:12px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+.panel h2{margin:0 0 8px 0;font-size:14px}
+label{display:block;font-size:13px;color:var(--muted);margin-top:6px}
+input[type=range]{width:100%}
+.row{display:flex;gap:8px;align-items:center;margin-top:8px}
+button{background:var(--accent);border:none;color:#fff;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600}
+button:active{transform:translateY(1px)}
+.small{font-size:12px;color:var(--muted)}
+footer{padding:10px 16px;border-top:1px solid rgba(255,255,255,0.02);color:var(--muted)}
+canvas{background:linear-gradient(#081422,#051021);border-radius:6px;display:block}
