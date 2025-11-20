@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>EvoVerse — 2D Evolution Simulator (GitHub Pages)</title>
+  <title>EvoVerse — Earth Evolution Simulator</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="styles.css">
   <!-- Chart.js -->
@@ -10,15 +10,15 @@
 </head>
 <body>
   <header>
-    <h1>EvoVerse — 2D Evolution Simulator</h1>
-    <p class="muted">Zero-player evolution: bacteria → multicellularity → land → air. Scientific logging & lineage export included.</p>
+    <h1>EvoVerse — Earth Evolution Simulator</h1>
+    <p class="muted">From primordial soup to modern life: Experience 3.8 billion years of evolution with realistic environmental challenges.</p>
   </header>
 
   <div id="app">
     <div id="left">
       <canvas id="worldCanvas" width="960" height="720"></canvas>
       <div id="overlay">
-        <div id="epochBadge">Epoch: <span id="epochName">Bacteria Epoch</span></div>
+        <div id="epochBadge">Epoch: <span id="epochName">Archaean</span><br>Year: <span id="yearDisplay">3.8 billion years ago</span></div>
         <div id="announcements"></div>
       </div>
     </div>
@@ -54,7 +54,7 @@
           <button id="btnSpawnFood">Spawn Food</button>
         </div>
 
-        <div class="row small muted">Tip: Increase mutation for faster exploration; enable sexual recombination to mix DNA.</div>
+        <div class="row small muted">Tip: Watch how organisms adapt to oxygen, ice ages, and extinction events.</div>
       </section>
 
       <section class="panel">
@@ -64,34 +64,47 @@
           <div>Population: <span id="pop">0</span></div>
           <div>Food: <span id="food">0</span></div>
           <div>Species: <span id="speciesCount">0</span></div>
-          <div>Avg Size: <span id="avgSize">0</span></div>
-          <div>Genetic Diversity: <span id="diversity">0</span></div>
+          <div>Avg Size: <span id="avgSize">0.00</span></div>
+          <div>Genetic Diversity: <span id="diversity">0.000</span></div>
+          <div>Oxygen Tolerance: <span id="oxygenTolerance">0.0%</span></div>
+          <div>Land Adaptation: <span id="landAdaptation">0.0%</span></div>
         </div>
       </section>
 
       <section class="panel">
-        <h2>Charts</h2>
+        <h2>Evolution Progress</h2>
         <canvas id="miniChart" width="380" height="180"></canvas>
       </section>
 
       <section class="panel">
         <h2>Data Export</h2>
-        <button id="btnExportMetrics">Export metrics CSV</button>
-        <button id="btnExportSpecies">Export species events CSV</button>
-        <button id="btnExportLineage">Export lineage JSON</button>
+        <button id="btnExportMetrics">Export Metrics CSV</button>
+        <button id="btnExportSpecies">Export Species Events CSV</button>
+        <button id="btnExportLineage">Export Lineage JSON</button>
       </section>
 
       <section class="panel small">
-        <strong>About</strong><br>
-        This is a scientific evolution sandbox that logs data suitable for analysis. Use exported CSV/JSON for reports.
+        <strong>About Earth Evolution Simulator</strong><br>
+        Simulates 3.8 billion years of evolution from anaerobic bacteria to complex life. Includes realistic extinction events, ice ages, and environmental challenges. Performance-optimized for smooth simulation even at high speeds.
+      </section>
+
+      <section class="panel small">
+        <strong>Evolutionary Timeline</strong><br>
+        • Archaean (3.8B YA) - First life<br>
+        • Proterozoic (2.5B YA) - Oxygen crisis<br>
+        • Cambrian (541M YA) - Explosion of life<br>
+        • Paleozoic - Land colonization<br>
+        • Mesozoic - Age of reptiles<br>
+        • Cenozoic - Age of mammals<br>
+        • Quaternary (2.6M YA) - Ice ages
       </section>
     </aside>
   </div>
 
   <footer>
-    
+    <div class="muted">Earth Evolution Simulator - Scientific accuracy with optimized performance | Watch for mass extinction events and evolutionary breakthroughs!</div>
   </footer>
 
   <script src="main.js"></script>
 </body>
-</html>
+        </html>
