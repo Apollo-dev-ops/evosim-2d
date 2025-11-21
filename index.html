@@ -51,6 +51,7 @@
           <button id="btnRestart">Restart</button>
           <button id="btnPause">Pause</button>
           <button id="btnSpawnFood">Spawn Food</button>
+          <button id="btnTriggerEvent">Trigger Extinction Event</button>
         </div>
 
         <div class="row small muted">Tip: Watch how organisms adapt to oxygen, ice ages, and extinction events.</div>
@@ -65,14 +66,25 @@
           <div>Species: <span id="speciesCount">0</span></div>
           <div>Avg Size: <span id="avgSize">0.00</span></div>
           <div>Genetic Diversity: <span id="diversity">0.000</span></div>
-          <div>Oxygen Tolerance: <span id="oxygenTolerance">0.0%</span></div>
-          <div>Land Adaptation: <span id="landAdaptation">0.0%</span></div>
+          <div>DNA Complexity: <span id="dnaComplexity">0</span></div>
+          <div>Event Progress: <span id="eventProgress">0%</span></div>
         </div>
       </section>
 
       <section class="panel">
         <h2>Evolution Progress</h2>
         <canvas id="miniChart" width="380" height="180"></canvas>
+      </section>
+
+      <section class="panel">
+        <h2>Trigger Specific Events</h2>
+        <div id="eventsList">
+          <div class="event-item" data-event="ordovician">Ordovician-Silurian</div>
+          <div class="event-item" data-event="devonian">Late Devonian</div>
+          <div class="event-item" data-event="permian">Permian-Triassic</div>
+          <div class="event-item" data-event="triassic">Triassic-Jurassic</div>
+          <div class="event-item" data-event="cretaceous">Cretaceous-Paleogene</div>
+        </div>
       </section>
 
       <section class="panel">
@@ -84,7 +96,7 @@
 
       <section class="panel small">
         <strong>About Earth Evolution Simulator</strong><br>
-        Simulates 3.8 billion years of evolution from anaerobic bacteria to complex life. Includes realistic extinction events, ice ages, and environmental challenges. Performance-optimized for smooth simulation even at high speeds.
+        Simulates 3.8 billion years of evolution from anaerobic bacteria to complex life. Includes realistic extinction events, ice ages, and environmental challenges. Performance-optimized for smooth experience.
       </section>
 
       <section class="panel small">
@@ -106,4 +118,4 @@
 
   <script src="main.js"></script>
 </body>
-        </html>
+</html>
