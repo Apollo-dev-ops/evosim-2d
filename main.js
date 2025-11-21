@@ -1204,14 +1204,79 @@ function updateChart() {
 }
 
 /* ----------------- BOOT ----------------- */
+/* ----------------- BOOT & INITIALIZATION ----------------- */
 function boot() {
-  canvas.width = 960; canvas.height = 720;
+  console.log("Booting EvoVerse...");
+  
+  // Ensure canvas exists and is properly sized
+  if (!canvas) {
+    console.error("Canvas element not found!");
+    return;
+  }
+  
+  canvas.width = 960;
+  canvas.height = 720;
+  console.log("Canvas size:", canvas.width, "x", canvas.height);
+  
+  // Initialize UI first
   initUI();
+  console.log("UI initialized");
+  
+  // Then restart simulation
   restartSim();
+  console.log("Simulation restarted");
+  
+  // Start animation loop
   ANIM.running = true;
   ANIM.lastStepTime = performance.now();
+  console.log("Starting animation loop...");
+  
+  // Draw initial frame immediately
+  draw();
+  
+  // Start the main loop
   stepLoop();
 }
 
-// Start the simulation
-boot();
+// Fix the duplicate restartSim function issue
+function restartSim() {
+  console.log("Restarting simulation...");
+  CONFIG.MUTATION_RATE = parseFloat(mrEl.value);
+  CONFIG.REPRO_ENERGY = parseInt(reproEl.value);
+  CONFIG.INITIAL_POP = parseInt(initPopEl.value);
+  
+  sim = new EvoSim();
+  sim.seed(CONFIG.INITIAL_POP);
+  
+  // Clear and reset chart
+  chart.data.labels = [];
+  chart.data.datasets.forEach(ds => ds.data = []);
+  
+  // Log initial metrics
+  sim.logMetrics();
+  updateStatsUI();
+  
+  // Clear announcements
+  annDiv.innerHTML = '';
+  epochEl.innerText = sim.epoch;
+  environmentEl.innerText = 'Normal';
+  
+  console.log("Initial population:", sim.agents.length);
+  console.log("Initial food:", sim.foods.length);
+  
+  // Force initial draw
+  draw();
+}
+
+// Start the simulation when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("DOM fully loaded, starting simulation...");
+  boot();
+});
+
+// Fallback: if DOM is already loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot);
+} else {
+  boot();
+                        }
