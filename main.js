@@ -1,5 +1,77 @@
 // main.js - Enhanced Evolution Simulator with Extinction Events & Complex Organisms
+// MOBILE COMPATIBILITY FIXES
+console.log("Mobile GitHub Pages detected - applying fixes...");
 
+// Fix 1: Wait for full page load
+window.addEventListener('load', function() {
+    console.log("Page fully loaded on mobile");
+    setTimeout(initMobileSim, 100); // Small delay for mobile
+});
+
+// Fix 2: Mobile-specific initialization
+function initMobileSim() {
+    console.log("Initializing mobile simulation...");
+    
+    // Reduce complexity for mobile
+    CONFIG.INITIAL_FOOD = 100;
+    CONFIG.INITIAL_POP = 15;
+    CONFIG.MAX_SPEED = 3.0;
+    
+    // Get canvas and ensure it's ready
+    const canvas = document.getElementById('worldCanvas');
+    if (!canvas) {
+        console.error("Canvas not found on mobile!");
+        return;
+    }
+    
+    // Set smaller canvas size for mobile
+    canvas.width = 800;
+    canvas.height = 600;
+    
+    console.log("Mobile canvas size:", canvas.width, "x", canvas.height);
+    
+    // Initialize
+    initUI();
+    restartSim();
+    
+    // Start animation
+    ANIM.running = true;
+    ANIM.lastStepTime = performance.now();
+    stepLoop();
+    
+    console.log("Mobile simulation started!");
+}
+
+// Fix 3: Replace all click events with touch events
+function initUI() {
+    console.log("Setting up mobile UI...");
+    
+    // Your existing UI code, but replace:
+    // btnRestart.addEventListener('click', ...) 
+    // WITH:
+    btnRestart.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        restartSim();
+    });
+    
+    btnPause.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        ANIM.running = !ANIM.running;
+        btnPause.innerText = ANIM.running ? 'Pause' : 'Resume';
+    });
+    
+    // Add touch events for all buttons...
+}
+
+// Fix 4: Add mobile viewport meta tag (add this to your HTML head)
+// <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+// Fix 5: Add error reporting
+window.addEventListener('error', function(e) {
+    console.error('Mobile Error:', e.error);
+});
+
+// Your existing code continues below...
 /* ----------------- ENHANCED CONFIG ----------------- */
 const CONFIG = {
   WORLD_W: 160,
